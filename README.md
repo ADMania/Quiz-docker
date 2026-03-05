@@ -120,7 +120,7 @@ Gunicorn
 Django API
    ↓
 PostgreSQL
-
+```
 ---
 
 # Быстрый запуск через Docker
