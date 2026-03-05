@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<h1>Импорт вопросов из Excel</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <p>
+        <input type="file" name="excel_file">
+    </p>
+	
+	<p>
+	Формат Excel:<br>
+	group | lesson | difficulty | question | option_a | option_b | option_c | option_d | correct
+	</p>
+
+	<p>
+	Ограничения:<br>
+	• максимум 15 вопросов<br>
+	• файл до 300 KB
+	</p>
+
+    <button type="submit" class="default">
+        Загрузить
+    </button>
+
+</form>
+
+{% endblock %}

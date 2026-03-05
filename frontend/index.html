@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кто хочет стать миллионером? - Безопасный Интернет</title>
+    <style>
+	/* плавное переключение темы */
+
+	body,
+	.container,
+	.question-container,
+	.answer-button,
+	.sidebar,
+	.money-step,
+	.modal-content,
+	.start-screen,
+	.prize-banner,
+	.lifeline,
+	button,
+	select{
+
+	transition:
+	background 0.6s cubic-bezier(.4,0,.2,1),
+	background-color 0.6s cubic-bezier(.4,0,.2,1),
+	color 0.6s cubic-bezier(.4,0,.2,1),
+	border-color 0.6s cubic-bezier(.4,0,.2,1),
+	box-shadow 0.6s cubic-bezier(.4,0,.2,1);
+	}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+            background: linear-gradient(135deg, #e6f2ff 0%, #fff9e6 50%, #e6ffe6 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Весёлые плавающие элементы фона */
+        body::before {
+            content: '🔐🌐🛡️💻🔑';
+            position: fixed;
+            font-size: 40px;
+            opacity: 0.1;
+            animation: float 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: 30px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            display: flex;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+            align-items: flex-start;
+        }
+
+        /* Left Game Area */
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logo Section */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .main-title {
+            font-size: 36px;
+            color: #e67e22;
+            text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(230,126,34,0.3);
+            margin-bottom: 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .prize-banner {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 50%, #e67e22 100%);
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 
+                0 6px 0 #d35400,
+                0 8px 20px rgba(230,126,34,0.4);
+            border: 4px solid #fff;
+            position: relative;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .prize-banner::before {
+            content: '⭐';
+            position: absolute;
+            left: 12px;
+            font-size: 18px;
+        }
+
+        .prize-banner::after {
+            content: '⭐';
+            position: absolute;
+            right: 12px;
+            font-size: 18px;
+        }
+
+        /* Question Box */
+        .question-container {
+            background: #fff;
+            border: 4px dashed #3498db;
+            border-radius: 25px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(52,152,219,0.3);
+            position: relative;
+            max-width: 100%;
+        }
+
+        .question-container::before,
+        .question-container::after {
+            content: '❓';
+            font-size: 30px;
+            position: absolute;
+            opacity: 0.6;
+        }
+
+        .question-container::before {
+            top: -10px;
+            left: 15px;
+            animation: spin 3s linear infinite;
+        }
+
+        .question-container::after {
+            bottom: -15px;
+            right: 15px;
+            animation: spin 3s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .question-text {
+            font-size: 24px;
+            line-height: 1.5;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* Answer Buttons */
+        .answers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .answer-button {
+			transition:
+			background 0.35s ease,
+			border-color 0.35s ease,
+			box-shadow 0.35s ease,
+			transform 0.15s ease;
+            background: linear-gradient(180deg, #fff 0%, #f8f9fa 100%);
+            border: 3px solid #3498db;
+            border-radius: 30px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #2980b9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52,152,219,0.2), transparent);
+            transition: left 0.4s;
+        }
+
+        .answer-button:hover::before {
+            left: 100%;
+        }
+
+        .answer-button:hover:not(.disabled):not(.correct):not(.wrong) {
+			background: linear-gradient(180deg, #004080 0%, #002850 50%, #001a33 100%);
+			border-color: #d4af37;
+			transform: translateX(10px);
+		}
+
+        .answer-button:active:not(.disabled) {
+            transform: translateX(8px) translateY(2px);
+            box-shadow: 0 2px 0 #2980b9;
+        }
+
+        .answer-button.correct {
+            background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%);
+            border-color: #229954;
+            color: #fff;
+            box-shadow: 0 4px 0 #1e8449;
+            animation: correctBounce 0.5s ease;
+        }
+
+        .answer-button.wrong{
+			background:#e74c3c !important;
+			border-color:#c0392b;
+			color:white;
+		}
+
+        .answer-button.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+            text-decoration: line-through;
+        }
+
+        @keyframes correctBounce {
+            0%, 100% { transform: translateX(8px) scale(1); }
+            50% { transform: translateX(8px) scale(1.1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .answer-letter {
+            color: #e67e22;
+            font-weight: bold;
+            font-size: 24px;
+            min-width: 35px;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+        .answer-button.correct .answer-letter,
+        .answer-button.wrong .answer-letter {
+            color: #fff;
+            text-shadow: none;
+        }
+
+        .answer-text {
+            flex: 1;
+            text-align: left;
+            padding-left: 12px;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .answer-button.correct .answer-text,
+        .answer-button.wrong .answer-text {
+            color: #fff;
+        }
+
+        /* Lifelines */
+        .lifelines {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .lifeline {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #fff 0%, #f9f9f9 100%);
+            border: 4px solid #f1c40f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #d4ac0d;
+            font-size: 26px;
+            position: relative;
+        }
+
+        .lifeline:hover:not(.used) {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 7px 0 #b7950b;
+            border-color: #f39c12;
+        }
+
+        .lifeline:active:not(.used) {
+            transform: scale(1.05) translateY(3px);
+            box-shadow: 0 2px 0 #d4ac0d;
+        }
+
+        .lifeline.used {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: #95a5a6;
+            box-shadow: 0 5px 0 #7f8c8d;
+        }
+
+        .lifeline.used::after {
+            content: '✕';
+            position: absolute;
+            color: #e74c3c;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+        /* Right Sidebar - Money Tree */
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: #fff;
+            border: 4px solid #f1c40f;
+            border-radius: 20px;
+            padding: 15px 12px;
+            box-shadow: 0 8px 25px rgba(241,196,15,0.3);
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            width: 10px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1c40f;
+            border-radius: 5px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #e67e22;
+            border-radius: 5px;
+            border: 2px solid #fff;
+        }
+
+        .money-tree {
+            list-style: none;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 5px;
+        }
+
+        .money-step {
+            padding: 7px 12px;
+            border-radius: 15px;
+            text-align: right;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+        }
+
+        .money-step .number {
+            color: #e67e22;
+            font-weight: bold;
+            min-width: 22px;
+            font-size: 12px;
+        }
+
+        .money-step .amount {
+            flex: 1;
+            text-align: right;
+            padding-left: 8px;
+            white-space: nowrap;
+            color: #555;
+        }
+
+        .money-step.inactive {
+            color: #999;
+        }
+
+        .money-step.active {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #fff;
+            font-weight: bold;
+            border-color: #fff;
+            box-shadow: 0 4px 15px rgba(230,126,34,0.5);
+            transform: scale(1.05);
+        }
+
+        .money-step.active .number,
+        .money-step.active .amount {
+            color: #fff;
+        }
+
+        .money-step.passed {
+            background: #e8f8f5;
+            border-color: #2ecc71;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .money-step.milestone {
+            background: #ebf5fb;
+            border-color: #3498db;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        .money-step.million {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(230,126,34,0.5);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            border: 5px solid #f1c40f;
+            border-radius: 25px;
+            padding: 25px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(241,196,15,0.5);
+            position: relative;
+        }
+
+        .modal-content::before {
+            content: '🎉';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 30px;
+            animation: bounce 1s ease infinite;
+        }
+
+        .modal-content::after {
+            content: '🎊';
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            font-size: 30px;
+            animation: bounce 1s ease infinite reverse;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            color: #e67e22;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            font-size: 17px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #d4ac0d;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 6px 0 #b7950b;
+        }
+
+        .close-btn:active {
+            transform: scale(1) translateY(2px);
+            box-shadow: 0 2px 0 #d4ac0d;
+        }
+
+        /* End Screen */
+        .end-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.98);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .end-title {
+            font-size: 48px;
+            color: #e67e22;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-shadow: 3px 3px 0 rgba(230,126,34,0.3);
+            animation: bounce 1.5s ease infinite;
+        }
+
+        .end-amount {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: #fff;
+            border: none;
+            padding: 18px 55px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 0 #1a5276;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 9px 0 #154360;
+        }
+
+        .restart-btn:active {
+            transform: scale(1.05) translateY(3px);
+            box-shadow: 0 3px 0 #1a5276;
+        }
+
+        /* Responsive */
+        @media (max-width: 950px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .sidebar {
+                width: 100%;
+                max-height: 180px;
+                order: -1;
+            }
+            .money-tree {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .money-step {
+                width: auto;
+                min-width: 75px;
+                text-align: center;
+                flex-direction: column;
+                font-size: 11px;
+            }
+            .main-title {
+                font-size: 28px;
+            }
+            .question-text {
+                font-size: 20px;
+            }
+            .prize-banner {
+                font-size: 18px;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .lifeline {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+            .answer-button {
+                padding: 12px 16px;
+            }
+            .answer-letter {
+                font-size: 20px;
+            }
+            .answer-text {
+                font-size: 16px;
+            }
+        }
+		.start-screen{
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			
+			background:linear-gradient(135deg,#e6f2ff 0%,#fff9e6 50%,#e6ffe6 100%);
+
+			display:flex;
+			flex-direction:column;
+			align-items:center;
+			justify-content:center;
+			gap:20px;
+
+			z-index:5000;
+			}
+
+		/* заголовки */
+		.start-screen h2{
+			color:#e67e22;
+			text-shadow:1px 1px 0 #fff;
+			margin-top:10px;
+			}
+
+		/* селекты */
+		.start-screen select{
+
+			width:260px;
+			padding:12px;
+			border-radius:15px;
+			border:3px solid #3498db;
+			background:#fff;
+			font-size:18px;
+			font-family:'Comic Sans MS', cursive;
+			box-shadow:0 4px 0 #2980b9;
+			cursor:pointer;
+			transition:all 0.2s;
+			}
+
+		.start-screen select:hover{
+			background:#e8f4fc;
+			transform:scale(1.03);
+			}
+
+		.start-screen select:focus{
+			outline:none;
+			border-color:#e67e22;
+			}
+
+/* кнопка */
+.start-screen button{
+
+margin-top:20px;
+
+padding:14px 40px;
+
+font-size:20px;
+font-weight:bold;
+
+border-radius:30px;
+border:none;
+
+background:linear-gradient(135deg,#f1c40f 0%,#f39c12 100%);
+
+color:white;
+
+cursor:pointer;
+
+box-shadow:0 5px 0 #d4ac0d;
+
+font-family:'Comic Sans MS', cursive;
+
+transition:all 0.2s;
+
+}
+
+.start-screen button:hover{
+transform:scale(1.08) translateY(-2px);
+box-shadow:0 7px 0 #b7950b;
+}
+
+.start-screen button:active{
+transform:scale(1.03) translateY(3px);
+box-shadow:0 2px 0 #d4ac0d;
+}
+.theme-toggle{
+position:fixed;
+top:20px;
+right:20px;
+
+width:50px;
+height:50px;
+
+border-radius:50%;
+border:2px solid #d4af37;
+
+background:#001f3f;
+color:#d4af37;
+
+font-size:22px;
+
+cursor:pointer;
+
+z-index:9999;
+
+transition:all 0.3s;
+}
+
+.theme-toggle:hover{
+transform:scale(1.1);
+box-shadow:0 0 15px rgba(212,175,55,0.7);
+}
+/* ================= DARK THEME ================= */
+
+body.dark{
+background: radial-gradient(circle at center,#0a2b4a 0%,#001b34 60%,#000814 100%);
+color:#fff;
+}
+
+/* заголовок */
+
+body.dark .main-title{
+color:#f1c40f;
+text-shadow:0 0 15px rgba(241,196,15,0.6);
+}
+
+/* баннер выигрыша */
+
+body.dark .prize-banner{
+background:linear-gradient(135deg,#d4af37,#f4d03f);
+color:#001b34;
+box-shadow:0 0 20px rgba(241,196,15,0.7);
+}
+
+/* вопрос */
+
+body.dark .question-container{
+
+background:linear-gradient(180deg,#0c355c 0%,#082844 100%);
+
+border:2px solid rgba(255,255,255,0.2);
+
+box-shadow:
+0 0 25px rgba(0,0,0,0.8),
+inset 0 0 15px rgba(255,255,255,0.05);
+
+}
+
+body.dark .question-text{
+color:#fff;
+}
+
+/* кнопки ответов */
+
+body.dark .answer-button{
+
+background:linear-gradient(180deg,#0d3b66 0%,#072642 100%);
+
+border:2px solid rgba(255,255,255,0.25);
+
+box-shadow:
+0 4px 10px rgba(0,0,0,0.7),
+inset 0 1px 0 rgba(255,255,255,0.1);
+
+}
+
+body.dark .answer-button:hover{
+
+background:linear-gradient(180deg,#114c86 0%,#09345c 100%);
+
+border-color:#f1c40f;
+
+box-shadow:
+0 6px 20px rgba(241,196,15,0.4);
+
+}
+
+body.dark .answer-letter{
+color:#f1c40f;
+}
+
+body.dark .answer-text{
+color:#fff;
+}
+
+/* sidebar */
+
+body.dark .sidebar{
+
+background:linear-gradient(180deg,#072642 0%,#041c33 100%);
+
+border:2px solid rgba(241,196,15,0.4);
+
+box-shadow:0 0 30px rgba(241,196,15,0.2);
+
+}
+
+/* деньги */
+
+body.dark .money-step{
+background:transparent;
+border:none;
+color:#9fb6cc;
+}
+
+body.dark .money-step .amount{
+color:#9fb6cc;
+}
+
+body.dark .money-step.active{
+
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+
+color:#001b34;
+
+box-shadow:0 0 20px rgba(241,196,15,0.8);
+
+}
+
+body.dark .money-step.active .amount{
+color:#001b34;
+}
+
+/* пройденные */
+
+body.dark .money-step.passed{
+color:#fff;
+}
+
+/* контрольные уровни */
+
+body.dark .money-step.milestone{
+color:#f1c40f;
+}
+/* ===== DARK MODALS ===== */
+
+body.dark .modal-overlay{
+background:rgba(0,0,0,0.92);
+}
+
+body.dark .modal-content{
+
+background:linear-gradient(180deg,#0b2f52,#071f36);
+
+border:3px solid #f1c40f;
+
+box-shadow:0 0 30px rgba(241,196,15,0.6);
+
+color:white;
+
+}
+
+body.dark .modal-body{
+color:white;
+}
+
+body.dark .close-btn{
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+color:#001b34;
+}
+
+
+/* ===== DARK START SCREEN ===== */
+
+body.dark .start-screen{
+
+background:radial-gradient(circle,#0b2f52 0%,#071f36 70%,#020d18 100%);
+
+}
+
+body.dark .start-screen h2{
+color:#f1c40f;
+}
+
+body.dark .start-screen select{
+
+background:#082844;
+
+border:2px solid rgba(255,255,255,0.3);
+
+color:white;
+
+box-shadow:none;
+
+}
+
+body.dark .start-screen select:hover{
+background:#0d3b66;
+}
+
+body.dark .start-screen button{
+
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+
+color:#001b34;
+
+box-shadow:0 0 15px rgba(241,196,15,0.6);
+
+}
+
+
+/* ===== DARK END SCREEN ===== */
+
+body.dark .end-screen{
+
+background:radial-gradient(circle,#071f36,#020d18);
+
+color:white;
+
+}
+
+body.dark .end-title{
+color:#f1c40f;
+}
+
+body.dark .restart-btn{
+
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+
+color:#001b34;
+
+}
+
+
+/* ===== ANSWER ANIMATIONS ===== */
+
+body.dark .answer-button.correct{
+
+background:linear-gradient(180deg,#2ecc71,#27ae60);
+
+border-color:#2ecc71;
+
+color:white;
+
+animation:correctPulse 0.6s ease;
+
+}
+
+body.dark .answer-button.wrong{
+
+background:linear-gradient(180deg,#e74c3c,#c0392b);
+
+border-color:#e74c3c;
+
+color:white;
+
+animation:wrongShake 0.5s ease;
+
+}
+/* ===== DARK LEADERBOARD FIX ===== */
+
+body.dark .leaderboard-item{
+
+background:rgba(255,255,255,0.08);
+
+color:#2c3e50;
+
+border:2px solid rgba(241,196,15,0.35);
+
+}
+
+body.dark .leaderboard-item span{
+
+color:#2c3e50;
+
+}
+
+/* второе и третье место */
+
+body.dark .leaderboard-item:nth-child(2){
+
+background:rgba(255,255,255,0.15);
+
+color:#ffffff;
+
+}
+
+body.dark .leaderboard-item:nth-child(3){
+
+background:rgba(255,255,255,0.12);
+
+color:#ffffff;
+
+}
+
+/* первое место оставить золотым */
+
+body.dark .leaderboard-item:first-child{
+
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+
+color:#001b34;
+
+font-weight:bold;
+}
+/* ===== DARK LEADERBOARD TEXT FIX ===== */
+
+body.dark .leaderboard-item:first-child{
+
+background:linear-gradient(135deg,#f1c40f,#f39c12);
+
+color:#001b34;
+
+font-weight:bold;
+
+}
+
+body.dark .leaderboard-item:first-child span{
+
+color:#001b34;
+
+}
+.modal-body div{
+background:#f8f9fa;
+color:#2c3e50;
+}
+.timer{
+
+margin-top:15px;
+
+font-size:32px;
+
+font-weight:bold;
+
+color:#d4af37;
+
+text-align:center;
+
+text-shadow:0 0 15px rgba(212,175,55,0.8);
+
+}
+
+.timer.warning{
+
+color:#e74c3c;
+
+animation:timerBlink 1s infinite;
+
+}
+
+@keyframes timerBlink{
+
+0%{opacity:1}
+50%{opacity:0.5}
+100%{opacity:1}
+}
+.answer-button.correct{
+background:#2ecc71 !important;
+border-color:#27ae60;
+color:white;
+}
+
+.answer-button.wrong{
+background:#e74c3c !important;
+border-color:#c0392b;
+color:white;
+}
+
+body:not(.dark) .answer-button:hover:not(.correct):not(.wrong){
+background:#e8f4fc;
+border-color:#3498db;
+transform:translateX(10px);
+}
+
+body:not(.dark) .answer-button{
+background:#ffffff;
+border:2px solid #3498db;
+color:#2c3e50;
+}
+
+body.light .answer-button{
+background:#ffffff !important;
+border:2px solid #3498db;
+color:#2c3e50;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="game-area">
+            <div class="logo-section">
+                <h1 class="main-title">🎮 Кто хочет стать миллионером? 🎮</h1>
+                <div class="prize-banner" id="prizeBanner">✨ 1 000 000 БАЛЛОВ ✨</div>
+				<div class="timer" id="timer">45</div>
+            </div>
+
+            <div class="lifelines">
+                <div class="lifeline" id="lifeline5050" onclick="useLifeline('5050')" title="50 на 50">
+                    <span>🔀</span>
+                </div>
+                <div class="lifeline" id="lifelinePhone" onclick="useLifeline('phone')" title="Звонок другу">
+                    <span>📞</span>
+                </div>
+                <div class="lifeline" id="lifelineAudience" onclick="useLifeline('audience')" title="Помощь зала">
+                    <span>👥</span>
+                </div>
+				<div class="lifeline" onclick="loadLeaderboard()" title="Таблица рекордов">
+					<span>🏆</span>
+				</div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-text" id="questionText">Загрузка вопроса...</div>
+            </div>
+
+            <div class="answers-grid" id="answersGrid">
+                <div class="answer-button" onclick="checkAnswer(0)">
+                    <span class="answer-letter">A:</span>
+                    <span class="answer-text" id="answer0">Вариант ответа</span>
+                </div>
+                <div class="answer-button" onclick="checkAnswer(1)">
+                    <span class="answer-letter">Б:</span>
+                    <span class="answer-text" id="answer1">Вариант ответа</span>
+                </div>
+                <div class="answer-button" onclick="checkAnswer(2)">
+                    <span class="answer-letter">B:</span>
+                    <span class="answer-text" id="answer2">Вариант ответа</span>
+                </div>
+                <div class="answer-button" onclick="checkAnswer(3)">
+                    <span class="answer-letter">Г:</span>
+                    <span class="answer-text" id="answer3">Вариант ответа</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul class="money-tree" id="moneyTree"></ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">Заголовок</div>
+            <div class="modal-body" id="modalBody">Текст</div>
+            <div id="modalChart" style="display: none;"></div>
+            <button class="close-btn" onclick="closeModal()">Закрыть 🎯</button>
+        </div>
+    </div>
+
+    <!-- End Screen -->
+    <div class="end-screen" id="endScreen">
+        <div class="end-title" id="endTitle">🏆 ИГРА ОКОНЧЕНА 🏆</div>
+        <div class="end-amount" id="endAmount">Вы выиграли: 0 баллов</div>
+        <button class="restart-btn" onclick="restartGame()">🔄 Играть снова</button>
+    </div>
+
+    <script>
+		const API = "/api";
+		
+		function shuffleArray(array){
+			for(let i=array.length-1;i>0;i--){
+			const j=Math.floor(Math.random()*(i+1));
+			[array[i],array[j]]=[array[j],array[i]];
+			}
+			return array;
+		}
+		
+		let timer=45;
+		let timerInterval=null;
+		
+        let questions = [];
+
+        const moneyLevels = [100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000];
+        const milestones = [4, 8, 14];
+
+        let currentQuestion = 0;
+        let gameActive = true;
+        let lifelinesUsed = { fifty50: false, phone: false, audience: false };
+
+        function initGame() {
+            createMoneyTree();
+            loadQuestion();
+        }
+
+        function createMoneyTree() {
+            const tree = document.getElementById('moneyTree');
+            tree.innerHTML = '';
+            
+            moneyLevels.forEach((amount, index) => {
+                const li = document.createElement('li');
+                li.className = 'money-step inactive';
+                li.id = `step-${index}`;
+                
+                let amountText = amount.toLocaleString('ru-RU') + ' баллов';
+                if (index === 14) {
+                    li.classList.add('million');
+                    amountText = '🏆 1 000 000 БАЛЛОВ 🏆';
+                } else if (milestones.includes(index)) {
+                    li.classList.add('milestone');
+                }
+                
+                li.innerHTML = `
+                    <span class="number">${index + 1}</span>
+                    <span class="amount">${amountText}</span>
+                `;
+                tree.appendChild(li);
+            });
+            
+            updateMoneyTree();
+        }
+
+        function updateMoneyTree() {
+            moneyLevels.forEach((_, index) => {
+                const step = document.getElementById(`step-${index}`);
+                step.classList.remove('active', 'passed', 'inactive');
+                
+                if (index === currentQuestion) {
+                    step.classList.add('active');
+                } else if (index < currentQuestion) {
+                    step.classList.add('passed');
+                } else {
+                    step.classList.add('inactive');
+                }
+            });
+        }
+
+        function loadQuestion(){
+			if(currentQuestion>=questions.length){
+				winGame();
+				return;
+			}
+			const q=questions[currentQuestion];
+			document.getElementById('questionText').textContent=q.question;
+			/* перемешиваем ответы */
+			let answers=q.options.map((text,index)=>({
+			text:text,
+			correct:index===q.correct
+			}));
+			answers=shuffleArray(answers);
+			/* сохраняем новый индекс правильного */
+			q.shuffledCorrect=answers.findIndex(a=>a.correct);
+			/* выводим */
+			for(let i=0;i<4;i++){
+				document.getElementById(`answer${i}`).textContent=answers[i].text;
+				const btn=document.querySelector(`.answer-button:nth-child(${i+1})`);
+				btn.classList.remove('correct','wrong','disabled');
+				btn.style.opacity='1';
+				btn.style.pointerEvents='auto';
+			}
+			updateMoneyTree();
+			startTimer();
+			}
+
+        function checkAnswer(selectedIndex) {
+			clearInterval(timerInterval);
+            if (!gameActive) return;
+            
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.answer-button');
+            const selectedBtn = buttons[selectedIndex];
+            const correctBtn = buttons[q.shuffledCorrect];
+            
+            gameActive = false;
+            
+            if (selectedIndex === q.shuffledCorrect) {
+                selectedBtn.classList.add('correct');
+                setTimeout(() => {
+                    currentQuestion++;
+                    gameActive = true;
+                    loadQuestion();
+                }, 2000);
+            } else {
+                selectedBtn.classList.add('wrong');
+                correctBtn.classList.add('correct');
+                setTimeout(() => {
+                    gameOver();
+                }, 3000);
+            }
+        }
+
+        function useLifeline(type) {
+            if (!gameActive || lifelinesUsed[type]) return;
+            
+            lifelinesUsed[type] = true;
+            const lifelineId = type === '5050' ? '5050' : type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById(`lifeline${lifelineId}`).classList.add('used');
+            
+            const q = questions[currentQuestion];
+            
+            if (type === '5050') {
+                const wrongAnswers = [0,1,2,3].filter(i => i !== q.shuffledCorrect);
+                const toHide = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 2);
+                
+                toHide.forEach(idx => {
+                    const btn = document.querySelector(`.answer-button:nth-child(${idx+1})`);
+                    btn.classList.add('disabled');
+                });
+            } else if (type === 'phone') {
+                showModal('📞 Звонок другу', 
+                    `Ваш друг думает... 🤔<br><br>
+                    <em>«Привет! Я хорошо разбираюсь в интернет-безопасности! 
+                    Уверен на 100%, что правильный ответ: <strong style="color: #e67e22; font-size: 20px;">${q.options[q.correct]}</strong>. 
+                    Ты справишься! 💪»</em>`
+                );
+            } else if (type === 'audience') {
+                const percentages = generateAudiencePercentages(q.shuffledCorrect);
+                const letters = ['A', 'Б', 'B', 'Г'];
+                
+                let chartHTML = '<div style="display: flex; gap: 12px; justify-content: center; align-items: flex-end; height: 160px; margin-top: 15px;">';
+                percentages.forEach((pct, idx) => {
+                    chartHTML += `
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 45px;">
+                            <div style="color: #e67e22; font-weight: bold; margin-bottom: 4px; font-size: 13px;">${pct}%</div>
+                            <div style="width: 30px; height: ${pct * 1.6}px; background: linear-gradient(180deg, #f1c40f 0%, #f39c12 100%); 
+                                border-radius: 8px 8px 0 0; box-shadow: 0 0 8px rgba(241,196,15,0.6); border: 2px solid #fff;"></div>
+                            <div style="margin-top: 6px; font-weight: bold; color: #2c3e50; font-size: 14px;">${letters[idx]}</div>
+                        </div>
+                    `;
+                });
+                chartHTML += '</div>';
+                
+                showModal('👥 Помощь зала', '📊 Распределение голосов зала:', true, chartHTML);
+            }
+        }
+
+        function generateAudiencePercentages(correctIndex) {
+            const correctPercent = Math.floor(Math.random() * 40) + 45;
+            const remaining = 100 - correctPercent;
+            const percentages = [0, 0, 0, 0];
+            percentages[correctIndex] = correctPercent;
+            
+            let left = remaining;
+            for (let i = 0; i < 4; i++) {
+                if (i !== correctIndex) {
+                    if (i === 3 || (correctIndex === 3 && i === 2)) {
+                        percentages[i] = left;
+                    } else {
+                        const share = Math.floor(Math.random() * left * 0.6);
+                        percentages[i] = share;
+                        left -= share;
+                    }
+                }
+            }
+            
+            return percentages;
+        }
+
+        function showModal(title, body, showChart = false, chartHTML = '') {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = body;
+            
+            const chartDiv = document.getElementById('modalChart');
+            if (showChart) {
+                chartDiv.innerHTML = chartHTML;
+                chartDiv.style.display = 'block';
+                document.getElementById('modalBody').style.display = 'none';
+            } else {
+                chartDiv.style.display = 'none';
+                document.getElementById('modalBody').style.display = 'block';
+            }
+            
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function gameOver(){
+
+			clearInterval(timerInterval);
+
+			let wonAmount = 0;
+
+			const passed = currentQuestion;
+
+			if(passed > 0){
+			wonAmount = moneyLevels[passed-1];
+			}
+
+			saveResult(wonAmount);
+
+			document.getElementById('endTitle').textContent='ИГРА ОКОНЧЕНА';
+			document.getElementById('endTitle').style.color='#e74c3c';
+
+			document.getElementById('endAmount').textContent =
+			`Вы выиграли: ${wonAmount.toLocaleString('ru-RU')} баллов`;
+
+			document.getElementById('endScreen').style.display='flex';
+
+			setTimeout(loadLeaderboard,1000);
+			}
+
+        function winGame() {
+			clearInterval(timerInterval);
+			saveResult(1000000);
+			
+            document.getElementById('endTitle').textContent = '🎉 ПОЗДРАВЛЯЕМ! 🎉';
+            document.getElementById('endTitle').style.color = '#27ae60';
+            document.getElementById('endAmount').textContent = '🏆 ВЫ ВЫИГРАЛИ 1 000 000 БАЛЛОВ! 🏆';
+            document.getElementById('endScreen').style.display = 'flex';
+			
+			setTimeout(loadLeaderboard,1000);
+        }
+
+        function restartGame() {
+            currentQuestion = 0;
+            gameActive = true;
+            lifelinesUsed = { fifty50: false, phone: false, audience: false };
+            
+            document.querySelectorAll('.lifeline').forEach(l => l.classList.remove('used'));
+            document.getElementById('endScreen').style.display = 'none';
+            
+            initGame();
+        }
+		let selectedGroup = null;
+		let selectedStudent = null;
+		let selectedLesson = null;
+		
+		function loadGroups(){
+
+			fetch(API + "/groups/")
+			.then(r=>r.json())
+			.then(data=>{
+
+			const select = document.getElementById("groupSelect");
+
+			select.innerHTML="";
+
+			data.forEach(g=>{
+
+			let opt=document.createElement("option");
+
+			opt.value=g.id;
+			opt.textContent=g.name;
+
+			select.appendChild(opt);
+		});
+
+		loadStudents();
+		loadLessons();
+
+		});
+		}
+		
+		function loadStudents(){
+
+			const group=document.getElementById("groupSelect").value;
+
+			fetch(API + "/students/"+group+"/")
+			.then(r=>r.json())
+			.then(data=>{
+
+			const select=document.getElementById("studentSelect");
+
+			select.innerHTML="";
+
+			data.forEach(s=>{
+
+			let opt=document.createElement("option");
+
+			opt.value=s.id;
+			opt.textContent=s.name;
+
+			select.appendChild(opt);
+			});
+		});
+		}
+		
+		function loadLessons(){
+
+			const group=document.getElementById("groupSelect").value;
+
+			fetch(API + "/lessons/"+group+"/")
+			.then(r=>r.json())
+			.then(data=>{
+
+			const select=document.getElementById("lessonSelect");
+
+			select.innerHTML="";
+
+			data.forEach(l=>{
+
+			let opt=document.createElement("option");
+
+			opt.value=l.id;
+			opt.textContent=l.title;
+
+			select.appendChild(opt);
+
+			});
+			});
+		}
+
+		function startTimer(){
+
+			clearInterval(timerInterval);
+
+			timer = 45;
+
+			const timerEl = document.getElementById("timer");
+
+			timerEl.textContent = timer;
+			timerEl.classList.remove("warning");
+
+			timerInterval = setInterval(()=>{
+
+			timer--;
+
+			timerEl.textContent = timer;
+
+			if(timer <= 10){
+			timerEl.classList.add("warning");
+			}
+
+			if(timer <= 0){
+
+			clearInterval(timerInterval);
+
+			if(gameActive){
+			gameActive = false;
+			gameOver();
+			}
+
+			}
+
+			},1000);
+
+			}
+
+		function startGame(){
+
+			selectedGroup=document.getElementById("groupSelect").value;
+			selectedStudent=document.getElementById("studentSelect").value;
+			selectedLesson=document.getElementById("lessonSelect").value;
+
+			if(!selectedGroup || !selectedStudent || !selectedLesson){
+				alert("Сначала выберите группу, ученика и урок!");
+				return;
+			}
+
+			document.getElementById("startScreen").style.display="none";
+
+			fetch(API + "/questions/"+selectedLesson+"/")
+			.then(async r => {
+
+			if(!r.ok){
+			const err = await r.json();
+			alert(
+			`Недостаточно вопросов!
+
+			Легких: ${err.easy}
+			Средних: ${err.medium}
+			Сложных: ${err.hard}
+
+			Нужно минимум по 5 каждого уровня.`
+			);
+			throw "not enough questions";
+			}
+
+			return r.json();
+
+			})
+			.then(data=>{
+			questions=data;
+			initGame();
+			});
+
+			}
+		window.addEventListener("DOMContentLoaded", () => {
+
+			loadGroups();
+
+			document
+			.getElementById("groupSelect")
+			.addEventListener("change", () => {
+
+				loadStudents();
+				loadLessons();
+
+			});
+
+		});
+		function saveResult(score){
+
+			fetch(API + "/result/",{
+
+			method:"POST",
+
+			headers:{
+			"Content-Type":"application/json"
+			},
+
+			body:JSON.stringify({
+
+			student:selectedStudent,
+			lesson:selectedLesson,
+			score:score
+
+			})
+
+			});
+
+		}
+		
+		function loadLeaderboard(){
+
+			fetch(API + "/leaderboard/"+selectedLesson+"/")
+			.then(r=>r.json())
+			.then(data=>{
+
+			let html="<div style='text-align:left'>";
+
+			data.forEach((r,i)=>{
+
+			let medal="";
+
+			if(i===0) medal="🥇";
+			else if(i===1) medal="🥈";
+			else if(i===2) medal="🥉";
+			else medal="⭐";
+
+			let highlight="";
+
+			if(r.student_id == selectedStudent){
+			highlight="background:#ffeaa7;border:3px solid #f39c12;";
+			}
+
+
+			html+=`
+			<div style="
+			padding:8px;
+			margin:6px 0;
+			border-radius:10px;
+			border:2px solid #f1c40f;
+			font-weight:bold;
+			${highlight}
+			">
+			${medal} ${i+1}. ${r.student} — ${r.score}
+			</div>
+			`;
+
+			});
+
+			html+="</div>";
+
+			showModal("🏆 Лучшие результаты", html);
+
+			});
+		}
+		document.addEventListener("DOMContentLoaded", ()=>{
+
+			const toggle=document.getElementById("themeToggle");
+
+			function setTheme(theme){
+
+			document.body.classList.toggle("dark",theme==="dark");
+
+			localStorage.setItem("theme",theme);
+
+			toggle.textContent=theme==="dark"?"☀️":"🌙";
+
+			}
+
+			toggle.onclick=()=>{
+
+			const current=document.body.classList.contains("dark")?"dark":"light";
+
+			setTheme(current==="dark"?"light":"dark");
+
+			};
+
+			const saved=localStorage.getItem("theme");
+
+			if(saved){
+			setTheme(saved);
+			}
+			});
+
+    </script>
+<button id="themeToggle" class="theme-toggle">🌙</button>
+</body>
+
+<div id="startScreen" class="start-screen">
+
+<h2>🏫 Выберите группу</h2>
+
+<select id="groupSelect"></select>
+
+<h2>👨‍🎓 Выберите ученика</h2>
+
+<select id="studentSelect"></select>
+
+<h2>📚 Выберите урок</h2>
+
+<select id="lessonSelect"></select>
+
+<button onclick="startGame()">Играть</button>
+
+</div>
+</html>
