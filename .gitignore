@@ -19,3 +19,5 @@ staticfiles/
 
 # system
 .DS_Store
+*.pub
+yes

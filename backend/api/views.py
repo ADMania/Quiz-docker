@@ -29,7 +29,7 @@ def questions(request, lesson_id):
 
     if len(easy) < 5 or len(medium) < 5 or len(hard) < 5:
         return Response({
-            "error": "Недостаточно вопросов для игры",
+            "error": "15 questions!",
             "easy": len(easy),
             "medium": len(medium),
             "hard": len(hard)
