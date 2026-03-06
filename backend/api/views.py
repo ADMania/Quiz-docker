@@ -1,6 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.decorators import authentication_classes
 from .models import Question, Lesson, Group, Student, Result
+from django.views.decorators.csrf import csrf_exempt
 import random
 
 @api_view(['GET'])
@@ -71,11 +73,13 @@ def groups(request):
     return Response(data)
 
 @api_view(['POST'])
+@authentication_classes([])
+@csrf_exempt
 def save_result(request):
 
     student_id = request.data.get("student")
     lesson_id = request.data.get("lesson")
-    score = request.data.get("score")
+    score = int(request.data.get("score", 0))
 
     result = Result.objects.filter(
         student_id=student_id,
