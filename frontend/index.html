@@ -1442,6 +1442,7 @@ color:#2c3e50;
             document.querySelectorAll('.lifeline').forEach(l => l.classList.remove('used'));
             document.getElementById('endScreen').style.display = 'none';
             
+			questions = shuffleArray([...questions]);
             initGame();
         }
 		let selectedGroup = null;
@@ -1593,7 +1594,7 @@ color:#2c3e50;
 
 			})
 			.then(data=>{
-			questions=data;
+			questions = shuffleArray([...data]);
 			initGame();
 			});
 
@@ -1673,7 +1674,10 @@ color:#2c3e50;
 			font-weight:bold;
 			${highlight}
 			">
-			${medal} ${i+1}. ${r.student} — ${r.score}
+			${medal} ${i+1}. ${r.student} — ${r.score} <br>
+			<span style="font-size:14px;color:#555;">
+			Попыток: ${r.attempts}
+			</span>
 			</div>
 			`;
 

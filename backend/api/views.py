@@ -87,17 +87,19 @@ def save_result(request):
     ).first()
 
     if result:
-
+        result.attempts += 1
         if score > result.score:
             result.score = score
-            result.save()
+            
+        result.save()
 
     else:
 
         Result.objects.create(
             student_id=student_id,
             lesson_id=lesson_id,
-            score=score
+            score=score,
+            attempts=1
         )
 
     return Response({"status": "ok"})
@@ -105,7 +107,7 @@ def save_result(request):
 @api_view(['GET'])    
 def leaderboard(request, lesson_id):
 
-    results = Result.objects.filter(lesson_id=lesson_id).order_by("-score")[:10]
+    results = Result.objects.filter(lesson_id=lesson_id).select_related("student").order_by("-score", "attempts")[:10]
 
     data = []
 
@@ -114,7 +116,8 @@ def leaderboard(request, lesson_id):
         data.append({
             "student": r.student.name,
             "student_id": r.student.id,
-            "score": r.score
+            "score": r.score,
+            "attempts": r.attempts,
         })
 
     return Response(data)

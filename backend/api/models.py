@@ -86,4 +86,5 @@ class Result(models.Model):
 
     score = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
+    attempts = models.IntegerField(default=0)
    
